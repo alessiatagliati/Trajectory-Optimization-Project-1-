@@ -24,6 +24,8 @@ hB= AirportB(3);%m
 Wpt_phi = zeros(MAXPOINTS,1);
 Wpt_lambda = zeros(MAXPOINTS,1);
 Wpt_givry = zeros(MAXPOINTS,1);
+Wpt_phi_temp = zeros(MAXPOINTS,1);
+Wpt_lambda_temp = zeros(MAXPOINTS,1);
 
 %- TASK I -
 %A and B conversion to geocentric
@@ -69,16 +71,29 @@ while (last_point) < MAXPOINTS && givry_test > 0
             
             [phiP3,lambdaP3] = find_waypoints(phiP1,lambdaP1,phiP2,lambdaP2);
             
+            %if there is space in the vector, store that point
             if last_point<=MAXPOINTS
-                [Wpt_lambda] = insert_to_vector (Wpt_lambda, lambdaP3, last_point, MAXPOINTS) ;
-                [Wpt_phi] = insert_to_vector (Wpt_phi, phiP3, last_point, MAXPOINTS) ;
-                [Wpt_givry] = insert_to_vector (Wpt_givry, givry_12, last_point, MAXPOINTS) ;
+                [Wpt_lambda_temp] = insert_to_vector (Wpt_lambda, lambdaP3, i, MAXPOINTS) ;
+                [Wpt_phi_temp] = insert_to_vector (Wpt_phi, phiP3, last_point, MAXPOINTS) ;
+                [Wpt_givry] = insert_to_vector (Wpt_givry, givry_12, i, MAXPOINTS) ;
             else
                 disp("Not enough points")
             end
             
-            last_point = last_point +1;   
+            last_point = last_point +1; 
+        else
+            Wpt_givry(i) = givry_12;
         end
-        
+        %update waypoint array
+        Wpt_phi = Wpt_phi_temp;
+        Wpt_lambda = Wpt_lambda_temp;
     end   
+    
+    %check if solution was achieved
+    if givry_test == 0
+        disp("Solution Found!");
+    else
+        disp("Could not find solution!");
+    end
+ 
 end
