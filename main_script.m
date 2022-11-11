@@ -4,11 +4,11 @@ close all;
 %Simulation parameters
 MAXPOINTS = 50;
 
-%Earth cosntants
+%Earth constants
 a = 6378.137;
 b = 6356.752;
 
-%A
+%Aiport coordinates 
 AirportA = [41.800278;12.238889;0]; %degrees/m
 AirportB = [13.6925;100.75;0]; %degrees/m
 
