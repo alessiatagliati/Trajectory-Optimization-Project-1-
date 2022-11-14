@@ -10,7 +10,7 @@ MAXPOINTS = 50;
 a = 6378.137; %km
 b = 6356.752; %km
 
-%A
+%Aiport coordinates 
 AirportA = [41.800278;12.238889;0]; %degrees/m
 AirportB = [13.6925;100.75;0]; %degrees/m
 
