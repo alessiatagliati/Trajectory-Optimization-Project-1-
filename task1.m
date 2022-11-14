@@ -90,14 +90,15 @@ while (last_point) < MAXPOINTS && givry_test > 0
         Wpt_phi = Wpt_phi_temp;
         Wpt_lambda = Wpt_lambda_temp;
     end   
-    
+end
+
     %check if solution was achieved
     if givry_test == 0
         disp("Solution Found!");
         
         %truncate vectors
         Wpt_phi = Wpt_phi(1:last_point-1);
-        Wpt_lambda = Wpt_phi(1:last_point-1);
+        Wpt_lambda = Wpt_lambda(1:last_point-1);
         Wpt_givry = Wpt_givry(1:last_point);
         
         Wpt_X = zeros(last_point-1,1);
@@ -147,4 +148,3 @@ while (last_point) < MAXPOINTS && givry_test > 0
         disp("Could not find solution!");
     end
  
-end
