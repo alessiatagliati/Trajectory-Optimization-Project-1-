@@ -41,7 +41,7 @@ Wpt_lambda_temp = zeros(MAXPOINTS,1);
 %AB loxodromic distance calculation
 [distLoxo_AB]= loxodistance (lambdaA, lambdaB,phiA,phiB); %NM
 
-%- TASK II -
+%- TASK I -
 last_point = 1;
 givry_test = 1;
 while (last_point) < MAXPOINTS && givry_test > 0
