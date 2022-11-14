@@ -145,6 +145,5 @@ while (last_point) < MAXPOINTS && givry_test > 0
         
     else
         disp("Could not find solution!");
-    end
- 
-end
+    end 
+end 
