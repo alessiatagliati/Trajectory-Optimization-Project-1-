@@ -97,7 +97,7 @@ while (last_point) < MAXPOINTS && givry_test > 0
         
         %truncate vectors
         Wpt_phi = Wpt_phi(1:last_point-1);
-        Wpt_lambda = Wpt_phi(1:last_point-1);
+        Wpt_lambda = Wpt_lambda(1:last_point-1);
         Wpt_givry = Wpt_givry(1:last_point);
         
         Wpt_X = zeros(last_point-1,1);
