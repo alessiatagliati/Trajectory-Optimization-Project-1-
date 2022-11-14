@@ -90,7 +90,8 @@ while (last_point) < MAXPOINTS && givry_test > 0
         Wpt_phi = Wpt_phi_temp;
         Wpt_lambda = Wpt_lambda_temp;
     end   
-    
+end
+
     %check if solution was achieved
     if givry_test == 0
         disp("Solution Found!");
@@ -145,5 +146,5 @@ while (last_point) < MAXPOINTS && givry_test > 0
         
     else
         disp("Could not find solution!");
-    end 
-end 
+
+    end
