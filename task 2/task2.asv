@@ -24,25 +24,17 @@ Longitude = num(Lines_START_num:Lines_END_num,Collums_LONGITUDE);
 Latitude = num(Lines_START_num:Lines_END_num,Collums_LATITUDE);
 Altitude = num(Lines_START_num:Lines_END_num,Collums_ALTITUDE);
 
-X = zeros(1,POINTS);
-Y = zeros(1,POINTS);
-Z = zeros(1,POINTS);
-
 %Date parsing
-[Time] = string_to_time(Date,POINTS);
+[Time] = string_to_time(Date,POINTS)';
 
 %conversion
-for i = 1:POINTS
-    [X(i),Y(i),Z(i)]= geodetic_to_geocentric (Longitude(i),Latitude(i),Altitude(i));
-end
+[X,Y,Z]= geodetic_to_geocentric (Longitude,Latitude,Altitude);
+
 %Interpolation
-f_X = polyfit(Time,X,DEGREE)
+f_X = polyfit(Time,X,DEGREE);
 f_Y = polyfit(Time,Y,DEGREE);
 f_Z = polyfit(Time,Z,DEGREE);
 
 %derivation
-[f_X_dot] = derivate(f_X,DEGREE);
-[f_Y_dot] = derivate(f_Y,DEGREE);
-[f_Z_dot] = derivate(f_Z,DEGREE);
 
 
