@@ -5,7 +5,7 @@ format long;
 
 %Simulation parameters
 POINTS = 100;
-DEGREE = 5;
+DEGREE = 20;
 
 Collums_DATE = 11;
 Collums_LATITUDE = 1;
@@ -33,10 +33,10 @@ Z = zeros(1,POINTS);
 
 %conversion
 for i = 1:POINTS
-    [X(i),Y(i),Z(i)]= geodetic_to_geocentric (Longitude(i),Latitude(i),Altitude(i));
+    [X(i),Y(i),Z(i)]= geodetic_to_geocentric (Longitude(i),Latitude(i),Altitude(i)/1000);
 end
 %Interpolation
-f_X = polyfit(Time,X,DEGREE)
+f_X = polyfit(Time,X,DEGREE);
 f_Y = polyfit(Time,Y,DEGREE);
 f_Z = polyfit(Time,Z,DEGREE);
 
@@ -45,4 +45,17 @@ f_Z = polyfit(Time,Z,DEGREE);
 [f_Y_dot] = derivate(f_Y,DEGREE);
 [f_Z_dot] = derivate(f_Z,DEGREE);
 
+%calculation of the total distance
+[distance] = simpcomp(Time, f_X_dot, f_Y_dot, f_Z_dot, POINTS, @f_dot_norm) %km
 
+%plots
+xt = zeros(1,POINTS);
+vt = zeros(1,POINTS);
+for i = 1:POINTS
+    t = Time(i);
+    xt(i) = polyval(f_X,t);
+    vt(i) = polyval(f_X_dot,t);
+end
+
+plot(Time,X, Time, xt)
+plot(Time, vt)

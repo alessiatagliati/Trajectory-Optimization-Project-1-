@@ -4,5 +4,5 @@ function [f_dot] = derivate(f,d)
         f(i) = f(i)*(exponent);
         exponent = exponent -1;
     end
-    f_dot = f;
+    f_dot = f(1:d);
 end
