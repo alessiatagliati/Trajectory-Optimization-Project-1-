@@ -4,7 +4,7 @@ close all;
 format long;
 
 %Simulation parameters
-POINTS = 100;
+POINTS = 269;
 DEGREE = 20;
 
 Collums_DATE = 11;
@@ -57,5 +57,6 @@ for i = 1:POINTS
     vt(i) = polyval(f_X_dot,t);
 end
 
-plot(Time,X, Time, xt)
-plot(Time, vt)
+plot(Time, Altitude)
+%plot(Time,X, Time, xt)
+%plot(Time, vt)
