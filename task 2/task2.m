@@ -68,7 +68,7 @@ if delta > PRECISION
     disp("Solution did not converge!");
 else
     disp("Solution found!");
-    disp(distance_prev)
+    distance_final = distance_prev * 0.539956803 %NM
 end
 
 %plots
