@@ -6,7 +6,7 @@ format long;
 %Filter Parameters
 
 SAMPLE = 50;
-POINTS = 400;
+POINTS = 50;
 
 Max_Error = 14.5 / 1000; % m / km
 h = 0.1; %time step (s)
@@ -27,7 +27,7 @@ C =[1 0 0 0 0 0 0 0 0;
 
 %Loading data
 
-data = xlsread('Dados_Medicoes.xls','Dados_1','A7:D500');
+data = xlsread('Dados_Medicoes.xls','Dados_1','A7:D300');
 Sample_t = data(1:SAMPLE,1);
 Sample_x = data(1:SAMPLE,2);
 Sample_y = data(1:SAMPLE,3);
@@ -50,8 +50,8 @@ R = [ sigma2 0 0; 0 sigma2 0; 0 0 sigma2];
 xk_sum = zeros(9,1);
 xk_tilde = zeros(9,SAMPLE);
 for i = 1:SAMPLE
-    yk_Sample = [Sample_x(i); Sample_y(i); Sample_z(i)];
-    xk_tilde(:,i) = pinv(C) * yk_Sample;
+    yk = [Sample_x(i); Sample_y(i); Sample_z(i)];
+    xk_tilde(:,i) = pinv(C) * yk;
     
     xk_sum = xk_sum + xk_tilde(:,i);
 end
@@ -65,8 +65,7 @@ for i = 1:SAMPLE
 end
 P_0 = P_sum / (SAMPLE -1);
 
-%Q = Gammak'*P_0*Gammak;
-Q=R
+Q = Gammak'*P_0*Gammak;
 
 %Filter Setup
 Pk = zeros(9,9*POINTS);
@@ -95,10 +94,10 @@ Xk = zeros(9,POINTS);
 %Cycle
 for i = 1:POINTS
     
- 
+    p_index = i*9;
     g_index = i*3;
     
-    yk = [Data_x(i); Data_y(i); Data_z(i)];
+    yk = [Sample_x(i); Sample_y(i); Sample_z(i)];
     
     if i == 1
         xk_prev = xk_0
@@ -107,12 +106,10 @@ for i = 1:POINTS
     end
     Xk_1 = Ak *xk_prev ;
     
-    Xk(:,i) = Xk_1 + Gk(:,g_index -2:g_index)*(yk-Ck*Xk_1) ;
-  
+    Xk(:,i) = Xk_1 + Gk(:,g_index -2:g_index)*(yk ;
+    
+    Pk(:,p_index - 8 :p_index)=( eye(9)-Gk(:,g_index -2:g_index)*Ck)* Pk_1;
     
 end
 
-plot3(Data_x,Data_y,Data_z)
-hold on 
-plot3(Xk(1,:),Xk(2,:),Xk(3,:),'r')
 
