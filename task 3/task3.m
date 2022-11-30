@@ -8,7 +8,7 @@ format long;
 SAMPLE = 50;
 POINTS = 50;
 
-Max_Error = 14.5; %m
+Max_Error = 14.5 / 1000; % m / km
 h = 0.1; %time step (s)
 
 A = [0 0 0 1 0 0 0 0 0; 
@@ -65,7 +65,7 @@ for i = 1:SAMPLE
 end
 P_0 = P_sum / (SAMPLE -1);
 
-Q = P_0(1:3,1:3);
+Q = Gammak'*P_0*Gammak;
 
 %Filter Setup
 Pk = zeros(9,9*POINTS);
