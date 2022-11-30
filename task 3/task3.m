@@ -5,11 +5,14 @@ format long;
 
 %Filter Parameters
 
+h = 0.1; %time step (s)
+TIME = 5*60 %simulation time (s)
+
 SAMPLE = 50;
-POINTS = 400;
+POINTS = TIME/h;
+
 
 Max_Error = 14.5 / 1000; % m / km
-h = 0.1; %time step (s)
 
 A = [0 0 0 1 0 0 0 0 0; 
     0 0 0 0 1 0 0 0 0;
@@ -27,7 +30,7 @@ C =[1 0 0 0 0 0 0 0 0;
 
 %Loading data
 
-data = xlsread('Dados_Medicoes.xls','Dados_1','A7:D500');
+data = xlsread('Dados_Medicoes.xls','Dados_1','A7:D5000');
 Sample_t = data(1:SAMPLE,1);
 Sample_x = data(1:SAMPLE,2);
 Sample_y = data(1:SAMPLE,3);
