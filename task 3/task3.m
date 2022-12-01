@@ -4,13 +4,14 @@ close all;
 format long;
 
 %Filter Parameters
+epsilon = 10^(-5);
+max_it = 100;
 
 h = 0.1; %time step (s)
-TIME = 5*60 %simulation time (s)
+TIME = 5*60; %simulation time (s)
 
 SAMPLE = 50;
 POINTS = TIME/h;
-
 
 Max_Error = 14.5 / 1000; % m / km
 
@@ -44,7 +45,11 @@ Data_z = data(SAMPLE + 1:SAMPLE + POINTS,4);
 %Initial Data
 Ak = expm(A*h);
 Ck = C;
-Gammak = Gamma;
+
+[Gammak,error,N] = Gamma_to_Gamma_d (Gamma,A,h,epsilon,max_it);
+if error == 1
+    disp('Error during Gamma_d calculation');
+end
 
 sigma2 = (Max_Error / 3)^2;
 R = [ sigma2 0 0; 0 sigma2 0; 0 0 sigma2];
@@ -68,8 +73,7 @@ for i = 1:SAMPLE
 end
 P_0 = P_sum / (SAMPLE -1);
 
-%Q = Gammak'*P_0*Gammak;
-Q=R
+Q = Gammak'*P_0*Gammak;
 
 %Filter Setup
 Pk = zeros(9,9*POINTS);
@@ -81,7 +85,7 @@ for i = 1:POINTS
     g_index = i*3;
     
     if i == 1
-        pk_prev = P_0
+        pk_prev = P_0;
     else
         pk_prev = Pk(:,p_index - 17: p_index - 9);
     end

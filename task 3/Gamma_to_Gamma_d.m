@@ -1,4 +1,4 @@
-function [Gamma_d,error] = Gamma_to_Gamma_d (Gamma,A,h,epsilon,max_it)
+function [Gamma_d,error,N] = Gamma_to_Gamma_d (Gamma,A,h,epsilon,max_it)
 
     [N,error] = Norm (A,h,epsilon,max_it);
     %only run if the norm did found a solution
@@ -18,7 +18,7 @@ function [Gamma_d,error] = Gamma_to_Gamma_d (Gamma,A,h,epsilon,max_it)
         N = 1;
         fro = epsilon + 10;
         
-        while i<= max_it || N >= epsilon
+        while N<= max_it && fro >= epsilon
             m = (A*h)^(N)/ factorial(N);
             fro = norm( m, 'fro');
             N = N +1;
