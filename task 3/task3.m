@@ -13,7 +13,7 @@ TIME = 5*60; %simulation time (s)
 SAMPLE = 50;
 POINTS = TIME/h;
 
-Max_Error = 29 / 1000; % m / km
+Max_Error = 25; % km
 
 A = [0 0 0 1 0 0 0 0 0; 
     0 0 0 0 1 0 0 0 0;
