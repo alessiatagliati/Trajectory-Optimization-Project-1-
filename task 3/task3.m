@@ -13,7 +13,7 @@ TIME = 5*60; %simulation time (s)
 SAMPLE = 50;
 POINTS = TIME/h;
 
-Max_Error = 14.5 / 1000; % m / km
+Max_Error = 29 / 1000; % m / km
 
 A = [0 0 0 1 0 0 0 0 0; 
     0 0 0 0 1 0 0 0 0;
@@ -119,7 +119,7 @@ for i = 1:POINTS
     
 end
 
-plot3(Data_x,Data_y,Data_z)
+plot3(Data_x,Data_y,Data_z,':')
 hold on 
 plot3(Xk(1,:),Xk(2,:),Xk(3,:),'r')
 
