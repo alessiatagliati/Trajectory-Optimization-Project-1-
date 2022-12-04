@@ -6,10 +6,12 @@ format long;
 %Simulation parameters
 POINTS = 269;
 DEGREE_MIN = 4;
-DEGREE_MAX = 50;
+DEGREE_MAX = POINTS -1;
 
-PRECISION = 5 /1000; %km
+%precision of the interpolation
+PRECISION = 1.852 /1000; %km
 
+%dada position in excel
 Collums_DATE = 11;
 Collums_LATITUDE = 1;
 Collums_LONGITUDE = 2;
