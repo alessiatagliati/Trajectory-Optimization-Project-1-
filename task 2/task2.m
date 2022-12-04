@@ -7,8 +7,8 @@ format long;
 POINTS = 269;
 DEGREE_MIN = 4;
 DEGREE_MAX = 50;
-%PRECISION = 0.01;
-PRECISION = 0.1;
+
+PRECISION = 5 /1000; %km
 
 Collums_DATE = 11;
 Collums_LATITUDE = 1;
