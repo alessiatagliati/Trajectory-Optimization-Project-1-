@@ -32,7 +32,9 @@ C =[1 0 0 0 0 0 0 0 0;
 
 %Loading data
 
-data = xlsread('Dados_Medicoes.xls','Dados_2','A3000:D7000');
+%data = xlsread('Dados_Medicoes.xls','Dados_2','A3000:D7000');
+data = xlsread('Dados_Medicoes.xls','Dados_1','A7:D4000');
+
 Sample_t = data(1:SAMPLE,1);
 Sample_x = data(1:SAMPLE,2);
 Sample_y = data(1:SAMPLE,3);
@@ -125,7 +127,7 @@ output_data = strings(POINTS +1 ,10);
 output_data(1,:) = ["Time";"x";"y";"z";"v_x";"v_y";"v_z";"a_x";"a_y";"a_z"];
 output_data(2:POINTS +1,2:10) = Xk()';
 output_data(2:POINTS +1,1) = Data_t();
-xlswrite('Results_task3.xls',output_data,'Simulation 2');
+xlswrite('Results_task3.xls',output_data,'Simulation 1');
 
 %plots
 %position
@@ -193,6 +195,15 @@ title('Acceleration with Time for the Z coodinate')
 xlabel('Time [s]')
 ylabel('Z acceleration [km/s^2]')
 legend('Filter Estimate','Location','northeast')
+
+%rawdata
+figure()
+plot3(Data_x,Data_y,Data_z)
+title('3D data')
+xlabel('X position [km]')
+ylabel('Y position [km]')
+zlabel('Z position [km]')
+legend('Raw Data','Location','northwest')
 
 %trajectory
 figure()
