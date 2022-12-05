@@ -36,19 +36,20 @@ Z = zeros(1,POINTS);
 %Date parsing
 [Time] = string_to_time(Date,POINTS);
 
-%conversion
+%conversion of the coordinates
 for i = 1:POINTS
     [X(i),Y(i),Z(i)]= geodetic_to_geocentric (Longitude(i),Latitude(i),Altitude(i)/1000);
 end
 
-%calculation
+%Calculation of the distance
+%Cycle initialization
 degree = DEGREE_MIN;
 delta = 100;
 distance_prev = 0;
 
 while (degree <= DEGREE_MAX & delta >= PRECISION)
     
-    %Interpolation
+    %Interpolation of the position
     f_X = polyfit(Time,X,degree);
     f_Y = polyfit(Time,Y,degree);
     f_Z = polyfit(Time,Z,degree);
@@ -66,7 +67,7 @@ while (degree <= DEGREE_MAX & delta >= PRECISION)
     degree = degree + 1;
 end
 
-%checking solution
+%checking the solution
 if delta > PRECISION
     disp("Solution did not converge!");
 else
@@ -74,15 +75,50 @@ else
     distance_final = distance_prev * 0.539956803 %NM
 end
 
-%plots
+%Ploting
 xt = zeros(1,POINTS);
-vt = zeros(1,POINTS);
+yt = zeros(1,POINTS);
+zt = zeros(1,POINTS);
+xdiff_sum = 0;
+ydiff_sum = 0;
+zdiff_sum = 0;
+
 for i = 1:POINTS
     t = Time(i);
-    xt(i) = polyval(f_X,t);
-    vt(i) = polyval(f_X_dot,t);
+    %intermolation function values
+    xt(i) = polyval(f_X,t); 
+    yt(i) = polyval(f_Y,t);
+    zt(i) = polyval(f_Z,t);
+    
+    %square difference
+    xdiff_sum = xdiff_sum + (X(i) - xt(i))^2;
+    ydiff_sum = ydiff_sum + (Y(i) - yt(i))^2;
+    zdiff_sum = zdiff_sum + (Z(i) - zt(i))^2;
+    
 end
+%root mean square
+x_mean2 = sqrt(xdiff_sum / POINTS)
+y_mean2 = sqrt(ydiff_sum / POINTS)
+z_mean2 = sqrt(zdiff_sum / POINTS)
 
-%plot(Time, Altitude)
-plot(Time,X, Time, xt)
-%plot(Time, vt)
+%plots
+figure()
+plot(Time,X, Time, xt,'--')
+title('Interpolation Function vs Raw Data for the X coordinate')
+xlabel('Time [s]')
+ylabel('X position [km]')
+legend('Raw data','Interpolation')
+
+figure()
+plot(Time,Y, Time, yt,'--')
+title('Interpolation Function vs Raw Data for the Y coordinate')
+xlabel('Time [s]')
+ylabel('Y position [km]')
+legend('Raw data','Interpolation')
+
+figure()
+plot(Time,Z, Time, zt,'--')
+title('Interpolation Function vs Raw Data for the Z coordinate')
+xlabel('Time [s]')
+ylabel('Z position [km]')
+legend('Raw data','Interpolation')
