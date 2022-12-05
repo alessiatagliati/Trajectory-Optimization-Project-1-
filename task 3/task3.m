@@ -15,6 +15,7 @@ POINTS = TIME/h;
 
 Max_Error = 25; % km
 
+%matrices
 A = [0 0 0 1 0 0 0 0 0; 
     0 0 0 0 1 0 0 0 0;
     0 0 0 0 0 1 0 0 0;
@@ -31,7 +32,7 @@ C =[1 0 0 0 0 0 0 0 0;
 
 %Loading data
 
-data = xlsread('Dados_Medicoes.xls','Dados_1','A7:D5000');
+data = xlsread('Dados_Medicoes.xls','Dados_2','A3000:D7000');
 Sample_t = data(1:SAMPLE,1);
 Sample_x = data(1:SAMPLE,2);
 Sample_y = data(1:SAMPLE,3);
@@ -119,9 +120,90 @@ for i = 1:POINTS
     
 end
 
+%write
+output_data = strings(POINTS +1 ,10);
+output_data(1,:) = ["Time";"x";"y";"z";"v_x";"v_y";"v_z";"a_x";"a_y";"a_z"];
+output_data(2:POINTS +1,2:10) = Xk()';
+output_data(2:POINTS +1,1) = Data_t();
+xlswrite('Results_task3.xls',output_data,'Simulation 2');
+
+%plots
+%position
+figure()
+plot(Data_t, Data_x,  Data_t, Xk(1,:))
+title('Position with Time for the X coodinate')
+xlabel('Time [s]')
+ylabel('X position [km]')
+legend('Raw data','Filter','Location','northwest')
+
+figure()
+plot(Data_t, Data_y,  Data_t, Xk(2,:))
+title('Position with Time for the Y coodinate')
+xlabel('Time [s]')
+ylabel('Y position [km]')
+legend('Raw data','Filter','Location','northeast')
+
+figure()
+plot(Data_t, Data_z,  Data_t, Xk(3,:))
+title('Position with Time for the Z coodinate')
+xlabel('Time [s]')
+ylabel('Z position [km]')
+legend('Raw data','Filter','Location','northwest')
+
+%Velocity
+figure()
+plot(Data_t, Xk(4,:))
+title('Velocity with Time for the X coodinate')
+xlabel('Time [s]')
+ylabel('X velocity [km/s]')
+legend('Filter Estimate','Location','northeast')
+
+figure()
+plot(Data_t, Xk(5,:))
+title('Velocity with Time for the Y coodinate')
+xlabel('Time [s]')
+ylabel('Y velocity [km/s]')
+legend('Filter Estimate','Location','northeast')
+
+figure()
+plot(Data_t, Xk(6,:))
+title('Velocity with Time for the Z coodinate')
+xlabel('Time [s]')
+ylabel('Z velocity [km/s]')
+legend('Filter Estimate','Location','northeast')
+
+%Acceleration
+figure()
+plot(Data_t, Xk(7,:))
+title('Acceleration with Time for the X coodinate')
+xlabel('Time [s]')
+ylabel('X acceleration [km/s^2]')
+legend('Filter Estimate','Location','northeast')
+
+figure()
+plot(Data_t, Xk(8,:))
+title('Acceleration with Time for the Y coodinate')
+xlabel('Time [s]')
+ylabel('Y acceleration [km/s^2]')
+legend('Filter Estimate','Location','northeast')
+
+figure()
+plot(Data_t, Xk(9,:))
+title('Acceleration with Time for the Z coodinate')
+xlabel('Time [s]')
+ylabel('Z acceleration [km/s^2]')
+legend('Filter Estimate','Location','northeast')
+
+%trajectory
+figure()
 plot3(Data_x,Data_y,Data_z,':')
 hold on 
 plot3(Xk(1,:),Xk(2,:),Xk(3,:),'r')
+title('3D Trajectory')
+xlabel('X position [km]')
+ylabel('Y position [km]')
+zlabel('Z position [km]')
+legend('Raw Data','Filter Estimate','Location','northwest')
 
 
 
